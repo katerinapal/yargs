@@ -1,21 +1,25 @@
+import argsert from "./lib/argsert";
+import fs from "fs";
+import Command from "./lib/command";
+import Completion from "./lib/completion";
+import Parser from "yargs-parser";
+import path from "path";
+import Usage from "./lib/usage";
+import Validation from "./lib/validation";
+import Y18n from "y18n";
+import objFilter from "./lib/obj-filter";
+import setBlocking from "set-blocking";
+import applyExtends from "./lib/apply-extends";
+import limiddleware_moduleDefault from "./lib/middleware";
+import YError from "./lib/yerror";
+import getcallerfile_moduleDefault from "get-caller-file";
+import findUp from "find-up";
+import requiremainfilename_moduleDefault from "require-main-filename";
+import osLocale from "os-locale";
 'use strict'
-const argsert = require('./lib/argsert')
-const fs = require('fs')
-const Command = require('./lib/command')
-const Completion = require('./lib/completion')
-const Parser = require('yargs-parser')
-const path = require('path')
-const Usage = require('./lib/usage')
-const Validation = require('./lib/validation')
-const Y18n = require('y18n')
-const objFilter = require('./lib/obj-filter')
-const setBlocking = require('set-blocking')
-const applyExtends = require('./lib/apply-extends')
-const { globalMiddlewareFactory } = require('./lib/middleware')
-const YError = require('./lib/yerror')
+const { globalMiddlewareFactory } = limiddleware_moduleDefault
 
-exports = module.exports = Yargs
-function Yargs (processArgs, cwd, parentRequire) {
+export default function Yargs(processArgs, cwd, parentRequire) {
   processArgs = processArgs || [] // handle calling yargs().
 
   const self = {}
@@ -361,7 +365,7 @@ function Yargs (processArgs, cwd, parentRequire) {
   self.commandDir = function (dir, opts) {
     argsert('<string> [object]', [dir, opts], arguments.length)
     const req = parentRequire || require
-    command.addDirectory(dir, self.getContext(), req, require('get-caller-file')(), opts)
+    command.addDirectory(dir, self.getContext(), req, getcallerfile_moduleDefault(), opts)
     return self
   }
 
@@ -511,11 +515,10 @@ function Yargs (processArgs, cwd, parentRequire) {
   function pkgUp (rootPath) {
     const npath = rootPath || '*'
     if (pkgs[npath]) return pkgs[npath]
-    const findUp = require('find-up')
 
     let obj = {}
     try {
-      let startDir = rootPath || require('require-main-filename')(parentRequire || require)
+      let startDir = rootPath || requiremainfilename_moduleDefault(parentRequire || require)
 
       // When called in an environment that lacks require.main.filename, such as a jest test runner,
       // startDir is already process.cwd(), and should not be shortened.
@@ -1181,7 +1184,6 @@ function Yargs (processArgs, cwd, parentRequire) {
     if (!detectLocale) return
 
     try {
-      const osLocale = require('os-locale')
       self.locale(osLocale.sync({ spawn: false }))
     } catch (err) {
       // if we explode looking up locale just noop
@@ -1199,7 +1201,7 @@ function Yargs (processArgs, cwd, parentRequire) {
 
 // rebase an absolute path to a relative one with respect to a base directory
 // exported for tests
-exports.rebase = rebase
+Yargs.rebase = rebase
 function rebase (base, dir) {
   return path.relative(base, dir)
 }

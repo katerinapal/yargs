@@ -1,79 +1,101 @@
 {
-  "name": "yargs",
-  "version": "13.2.2",
-  "description": "yargs the modern, pirate-themed, successor to optimist.",
-  "main": "./index.js",
-  "contributors": [
-    {
-      "name": "Yargs Contributors",
-      "url": "https://github.com/yargs/yargs/graphs/contributors"
+    "name": "yargs",
+    "version": "13.2.2",
+    "description": "yargs the modern, pirate-themed, successor to optimist.",
+    "main": "./index.js",
+    "contributors": [
+        {
+            "name": "Yargs Contributors",
+            "url": "https://github.com/yargs/yargs/graphs/contributors"
+        }
+    ],
+    "files": [
+        "index.js",
+        "yargs.js",
+        "lib",
+        "locales",
+        "completion.sh.hbs",
+        "completion.zsh.hbs",
+        "LICENSE"
+    ],
+    "dependencies": {
+        "cliui": "^4.0.0",
+        "find-up": "^3.0.0",
+        "get-caller-file": "^2.0.1",
+        "os-locale": "^3.1.0",
+        "require-directory": "^2.1.1",
+        "require-main-filename": "^2.0.0",
+        "set-blocking": "^2.0.0",
+        "string-width": "^3.0.0",
+        "which-module": "^2.0.0",
+        "y18n": "^4.0.0",
+        "yargs-parser": "^13.0.0"
+    },
+    "devDependencies": {
+        "chai": "^4.2.0",
+        "chalk": "^2.4.2",
+        "coveralls": "^3.0.2",
+        "cpr": "^3.0.1",
+        "cross-spawn": "^6.0.4",
+        "es6-promise": "^4.2.5",
+        "hashish": "0.0.4",
+        "mocha": "^5.2.0",
+        "nyc": "^13.2.0",
+        "rimraf": "^2.6.3",
+        "standard": "^12.0.1",
+        "standard-version": "^5.0.0",
+        "which": "^1.3.1",
+        "yargs-test-extends": "^1.0.1",
+        "babel-cli": "latest",
+        "babel-core": "latest",
+        "babel-plugin-add-module-exports": "latest",
+        "babel-plugin-transform-es2015-modules-commonjs": "latest",
+        "babel-polyfill": "latest",
+        "babel-preset-env": "latest",
+        "babel-preset-es2015-without-strict": "latest"
+    },
+    "scripts": {
+        "test": "nyc --cache mocha --require ./test/before.js --timeout=12000 --check-leaks",
+        "coverage": "nyc report --reporter=text-lcov | coveralls",
+        "release": "standard-version",
+        "compile-indexjs": "babel index.js -o index.js --require babel-polyfill --presets env",
+        "compile-libapplyextendsjs": "babel lib\\apply-extends.js -o lib\\apply-extends.js --require babel-polyfill --presets env",
+        "compile-libargsertjs": "babel lib\\argsert.js -o lib\\argsert.js --require babel-polyfill --presets env",
+        "compile-libcommandjs": "babel lib\\command.js -o lib\\command.js --require babel-polyfill --presets env",
+        "compile-libcompletionjs": "babel lib\\completion.js -o lib\\completion.js --require babel-polyfill --presets env",
+        "compile-libdecamelizejs": "babel lib\\decamelize.js -o lib\\decamelize.js --require babel-polyfill --presets env",
+        "compile-libispromisejs": "babel lib\\is-promise.js -o lib\\is-promise.js --require babel-polyfill --presets es2015-without-strict",
+        "compile-liblevenshteinjs": "babel lib\\levenshtein.js -o lib\\levenshtein.js --require babel-polyfill --presets env",
+        "compile-libmiddlewarejs": "babel lib\\middleware.js -o lib\\middleware.js --require babel-polyfill --presets env",
+        "compile-libobjfilterjs": "babel lib\\obj-filter.js -o lib\\obj-filter.js --require babel-polyfill --presets env",
+        "compile-libusagejs": "babel lib\\usage.js -o lib\\usage.js --require babel-polyfill --presets env",
+        "compile-libvalidationjs": "babel lib\\validation.js -o lib\\validation.js --require babel-polyfill --presets env",
+        "compile-libyerrorjs": "babel lib\\yerror.js -o lib\\yerror.js --require babel-polyfill --presets env",
+        "compile-yargsjs": "babel yargs.js -o yargs.js --require babel-polyfill --presets env",
+        "compile-1_script": "npm run compile-indexjs && npm run compile-libapplyextendsjs && npm run compile-libargsertjs && npm run compile-libcommandjs && npm run compile-libcompletionjs && npm run compile-libdecamelizejs && npm run compile-libispromisejs && npm run compile-liblevenshteinjs && npm run compile-libmiddlewarejs && npm run compile-libobjfilterjs && npm run compile-libusagejs && npm run compile-libvalidationjs && npm run compile-libyerrorjs && npm run compile-yargsjs",
+        "compile": "npm run compile-1_script"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/yargs/yargs.git"
+    },
+    "homepage": "https://yargs.js.org/",
+    "standard": {
+        "ignore": [
+            "**/example/**"
+        ]
+    },
+    "keywords": [
+        "argument",
+        "args",
+        "option",
+        "parser",
+        "parsing",
+        "cli",
+        "command"
+    ],
+    "license": "MIT",
+    "engine": {
+        "node": ">=6"
     }
-  ],
-  "files": [
-    "index.js",
-    "yargs.js",
-    "lib",
-    "locales",
-    "completion.sh.hbs",
-    "completion.zsh.hbs",
-    "LICENSE"
-  ],
-  "dependencies": {
-    "cliui": "^4.0.0",
-    "find-up": "^3.0.0",
-    "get-caller-file": "^2.0.1",
-    "os-locale": "^3.1.0",
-    "require-directory": "^2.1.1",
-    "require-main-filename": "^2.0.0",
-    "set-blocking": "^2.0.0",
-    "string-width": "^3.0.0",
-    "which-module": "^2.0.0",
-    "y18n": "^4.0.0",
-    "yargs-parser": "^13.0.0"
-  },
-  "devDependencies": {
-    "chai": "^4.2.0",
-    "chalk": "^2.4.2",
-    "coveralls": "^3.0.2",
-    "cpr": "^3.0.1",
-    "cross-spawn": "^6.0.4",
-    "es6-promise": "^4.2.5",
-    "hashish": "0.0.4",
-    "mocha": "^5.2.0",
-    "nyc": "^13.2.0",
-    "rimraf": "^2.6.3",
-    "standard": "^12.0.1",
-    "standard-version": "^5.0.0",
-    "which": "^1.3.1",
-    "yargs-test-extends": "^1.0.1"
-  },
-  "scripts": {
-    "pretest": "standard",
-    "test": "nyc --cache mocha --require ./test/before.js --timeout=12000 --check-leaks",
-    "coverage": "nyc report --reporter=text-lcov | coveralls",
-    "release": "standard-version"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/yargs/yargs.git"
-  },
-  "homepage": "https://yargs.js.org/",
-  "standard": {
-    "ignore": [
-      "**/example/**"
-    ]
-  },
-  "keywords": [
-    "argument",
-    "args",
-    "option",
-    "parser",
-    "parsing",
-    "cli",
-    "command"
-  ],
-  "license": "MIT",
-  "engine": {
-    "node": ">=6"
-  }
 }
